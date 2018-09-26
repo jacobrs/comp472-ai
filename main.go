@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -16,10 +17,21 @@ func main() {
 				numList = append(numList, num)
 			}
 		}
-		createBoard(numList).print()
+		board := createBoard(numList)
+		board.print()
+		for i, pos := range board.dfs(&[]string{}, []string{}, "1-2-3-4-5-6-7-8-9-10-11-0") {
+			fmt.Printf("%d. %s\n", i, pos)
+		}
 	} else {
 		getBoard(3, 4).print()
 	}
 }
 
-func dfs() {}
+func contains(keys []string, key string) bool {
+	for _, i := range keys {
+		if i == key {
+			return true
+		}
+	}
+	return false
+}
