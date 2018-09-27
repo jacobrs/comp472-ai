@@ -10,8 +10,8 @@ This repository stores mini projects that have been completed during the course 
 root
 │    README.md
 └─── assignment1
-     │    main.go
-     │    board.go
- 	   |    dfs.go
- 	   └─── bfs.go
+    │    main.go
+    │    board.go
+    |    dfs.go
+    └─── bfs.go
 ```
