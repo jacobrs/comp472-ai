@@ -12,7 +12,7 @@ root
 └─── assignment1
     │    main.go
     │    board.go
-    |    dfs.go
-    |    heuristics.go
+    │    dfs.go
+    │    heuristics.go
     └─── bfs.go
 ```
