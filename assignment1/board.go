@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -34,6 +35,19 @@ func createBoard(list []int) board {
 	return board
 }
 
+func createBoardFromKey(key string) board {
+	formattedKey := key[3 : len(key)-1]
+	strList := (strings.Split(formattedKey, ","))
+	numList := []int{}
+	for _, i := range strList {
+		num, e := strconv.Atoi(strings.Replace(i, " ", "", -1))
+		if e == nil {
+			numList = append(numList, num)
+		}
+	}
+	return createBoard(numList)
+}
+
 func (b board) print() {
 	fmt.Printf("Key: %s\n", b.key())
 	fmt.Println("---------------------")
@@ -62,32 +76,8 @@ func (b board) key() string {
 func (b board) possibleMoves() []board {
 	positionOfBlank := b.findBlankPosition()
 	possibilities := []board{}
-	if positionOfBlank.row > 0 {
-		// can move up
-		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
-			position{positionOfBlank.row - 1, positionOfBlank.col}))
-		if positionOfBlank.col > 0 {
-			// can move up left
-			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
-				position{positionOfBlank.row - 1, positionOfBlank.col - 1}))
-		}
-		if positionOfBlank.col < len(b[0])-1 {
-			// can move up right
-			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
-				position{positionOfBlank.row - 1, positionOfBlank.col + 1}))
-		}
-	}
-	if positionOfBlank.col > 0 {
-		// can move left
-		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
-			position{positionOfBlank.row, positionOfBlank.col - 1}))
-	}
-	if positionOfBlank.col < len(b[0])-1 {
-		// can move right
-		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
-			position{positionOfBlank.row, positionOfBlank.col + 1}))
-	}
 	if positionOfBlank.row < len(b)-1 {
+		// can move down
 		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
 			position{positionOfBlank.row + 1, positionOfBlank.col}))
 		if positionOfBlank.col > 0 {
@@ -95,6 +85,33 @@ func (b board) possibleMoves() []board {
 			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
 				position{positionOfBlank.row + 1, positionOfBlank.col - 1}))
 		}
+	}
+	if positionOfBlank.col > 0 {
+		// can move left
+		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
+			position{positionOfBlank.row, positionOfBlank.col - 1}))
+	}
+	if positionOfBlank.row > 0 {
+		if positionOfBlank.col > 0 {
+			// can move up left
+			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
+				position{positionOfBlank.row - 1, positionOfBlank.col - 1}))
+		}
+		// can move up
+		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
+			position{positionOfBlank.row - 1, positionOfBlank.col}))
+		if positionOfBlank.col < len(b[0])-1 {
+			// can move up right
+			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
+				position{positionOfBlank.row - 1, positionOfBlank.col + 1}))
+		}
+	}
+	if positionOfBlank.col < len(b[0])-1 {
+		// can move right
+		possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
+			position{positionOfBlank.row, positionOfBlank.col + 1}))
+	}
+	if positionOfBlank.row < len(b)-1 {
 		if positionOfBlank.col < len(b[0])-1 {
 			// can move down right
 			possibilities = append(possibilities, b.swap(position{positionOfBlank.row, positionOfBlank.col},
