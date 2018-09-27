@@ -50,13 +50,13 @@ func (b board) print() {
 }
 
 func (b board) key() string {
-	key := ""
+	key := "["
 	for _, row := range b {
 		for _, val := range row {
-			key += strconv.Itoa(val) + "-"
+			key += strconv.Itoa(val) + ", "
 		}
 	}
-	return key[:len(key)-1]
+	return key[:len(key)-2] + "]"
 }
 
 func (b board) possibleMoves() []board {
@@ -131,4 +131,8 @@ func (b board) swap(p1 position, p2 position) board {
 	nb[p1.row][p1.col] = nb[p2.row][p2.col]
 	nb[p2.row][p2.col] = tmp
 	return nb
+}
+
+func (p position) toLetter() string {
+	return string((p.row * 4) + p.col + 97)
 }
