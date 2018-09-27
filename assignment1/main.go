@@ -19,9 +19,12 @@ func main() {
 		}
 		board := createBoard(numList)
 		fmt.Println("0 " + board.key())
-		for _, pos := range board.dfs(&[]string{}, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 20, 1) {
-			fmt.Println(pos)
-		}
+		fmt.Println(tilesAwayHeuristic(board))
+		/*
+			for _, pos := range board.dfs(&[]string{}, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 20, 1) {
+				fmt.Println(pos)
+			}
+		*/
 	} else {
 		getBoard(3, 4).print()
 	}

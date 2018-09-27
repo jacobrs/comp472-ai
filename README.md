@@ -13,5 +13,6 @@ root
     │    main.go
     │    board.go
     |    dfs.go
+    |    heuristics.go
     └─── bfs.go
 ```
