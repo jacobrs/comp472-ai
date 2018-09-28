@@ -8,11 +8,8 @@ func (b board) dfs(visited *[]string, path []string, goal string, maxDepth int, 
 		return []string{}
 	}
 	*visited = append(*visited, b.key())
-	// nvisited := len(*visited)
-	// print("\033[H\033[2J")
-	// fmt.Printf("%d nodes visited\n", nvisited)
 	for _, child := range b.possibleMoves() {
-		if !contains(*visited, child.key()) {
+		if !contains(path, child.key()) {
 			result := child.dfs(visited, append(path, child.findBlankPosition().toLetter()+" "+child.key()), goal, maxDepth, currentDepth+1)
 			if len(result) > 0 {
 				return result

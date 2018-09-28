@@ -160,9 +160,9 @@ func sort(positions []board) []board {
 	for len(boards) > 0 {
 		idx := minTilesAway(boards)
 		sorted = append(sorted, boards[idx])
-		boards = boards[idx:len(boards)]
+		boards = append(boards[:idx], boards[idx+1:]...)
 	}
-	return positions
+	return sorted
 }
 
 func minTilesAway(positions []board) int {

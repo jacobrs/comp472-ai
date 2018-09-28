@@ -17,9 +17,18 @@ func main() {
 				numList = append(numList, num)
 			}
 		}
-		board := createBoard(numList)
-		fmt.Println("0 " + board.key())
-		for _, pos := range board.dfs(&[]string{}, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 16, 1) {
+		b := createBoard(numList)
+		fmt.Println("Running dfs with 5 depth limit")
+		fmt.Println("0 " + b.key())
+		for _, pos := range b.dfs(&[]string{}, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 10, 1) {
+			fmt.Println(pos)
+		}
+		fmt.Println("Running bfs with tilesAway heuristics")
+		// positions := []board{createBoard([]int{1, 2, 3, 0, 5, 6, 7, 8, 9, 10, 4, 11}), createBoard([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0})}
+		// positions = sort(positions)
+		// fmt.Println(positions)
+		fmt.Println("0 " + b.key())
+		for _, pos := range b.bfs([]string{}) {
 			fmt.Println(pos)
 		}
 	} else {
