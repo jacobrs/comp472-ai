@@ -75,7 +75,8 @@ func (g GameState) constructPath() []string {
 	var path []string
 
 	for g.parent != nil {
-		path = append([]string{g.parent.moveMade}, path...)
+		path = append([]string{g.moveMade}, path...)
+		g = *g.parent
 	}
 
 	return path

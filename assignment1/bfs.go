@@ -31,7 +31,7 @@ func (g GameState) bfs(gn func(GameState) int, fn func(board) float64) []string 
 					hValue:   fn(board),
 					cost:     0,
 					parent:   currState,
-					moveMade: currState.state.findBlankPosition().toLetter() + " " + board.key(),
+					moveMade: board.findBlankPosition().toLetter() + " " + currState.state.key() + "\n",
 				}
 				heap.Push(&pq, addState)
 			}
