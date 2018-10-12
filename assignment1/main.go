@@ -25,7 +25,7 @@ func main() {
 		game.state = b
 		game.cost = 0
 		game.hValue = cartesianDistanceHeuristic(b)
-		fmt.Println(game.bfs(func(g GameState) int { return 0 }, cartesianDistanceHeuristic))
+		fmt.Println(game.bestFirstSearch(cartesianDistanceHeuristic))
 	} else {
 		getBoard(3, 4).print()
 	}

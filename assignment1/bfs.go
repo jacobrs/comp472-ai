@@ -4,7 +4,11 @@ import (
 	"container/heap"
 )
 
-func (g GameState) bfs(gn func(GameState) int, fn func(board) float64) []string {
+func (g GameState) bestFirstSearch(fn func(board) float64) []string {
+	return g.genericSearch(func(g GameState) int { return 0 }, fn)
+}
+
+func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64) []string {
 	var currState *GameState
 	seenStates := make(map[string]bool)
 
