@@ -153,27 +153,3 @@ func (b board) swap(p1 position, p2 position) board {
 func (p position) toLetter() string {
 	return string((p.row * 4) + p.col + 97)
 }
-
-func sort(positions []board) []board {
-	boards := positions
-	sorted := []board{}
-	for len(boards) > 0 {
-		idx := minTilesAway(boards)
-		sorted = append(sorted, boards[idx])
-		boards = append(boards[:idx], boards[idx+1:]...)
-	}
-	return sorted
-}
-
-func minTilesAway(positions []board) int {
-	minPosition := 0
-	min := tilesAwayHeuristic(positions[minPosition])
-	for idx, val := range positions {
-		cost := tilesAwayHeuristic(val)
-		if cost < min {
-			minPosition = idx
-			min = cost
-		}
-	}
-	return minPosition
-}

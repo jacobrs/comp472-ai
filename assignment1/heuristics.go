@@ -4,15 +4,14 @@ import (
 	"math"
 )
 
-func tilesAwayHeuristic(b board) int {
-	cost := 0
+func cartesianDistanceHeuristic(b board) float64 {
+	cost := 0.0
 	for i, row := range b {
-		for j, col := range row {
-			positionInPuzzle := (i*4 + j) + 1
-			if col != 0 {
-				cost += int(math.Abs(float64(col - positionInPuzzle)))
-			} else {
-				cost += (len(row) * len(b)) - positionInPuzzle
+		for j, num := range row {
+			if num != 0 {
+				properRow, properCol := num/4, num%4-1
+
+				cost += math.Sqrt(float64(Abs(properRow-i)*Abs(properRow-i) + Abs(properCol-j)*Abs(properCol-j)))
 			}
 		}
 	}

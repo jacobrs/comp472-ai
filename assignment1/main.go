@@ -18,19 +18,14 @@ func main() {
 			}
 		}
 		b := createBoard(numList)
-		fmt.Println("Running dfs with 5 depth limit")
-		fmt.Println("0 " + b.key())
-		for _, pos := range b.dfs(&[]string{}, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 10, 1) {
-			fmt.Println(pos)
-		}
-		fmt.Println("Running bfs with tilesAway heuristics")
-		// positions := []board{createBoard([]int{1, 2, 3, 0, 5, 6, 7, 8, 9, 10, 4, 11}), createBoard([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0})}
-		// positions = sort(positions)
-		// fmt.Println(positions)
-		fmt.Println("0 " + b.key())
-		for _, pos := range b.bfs([]string{}) {
-			fmt.Println(pos)
-		}
+
+		// Running on sequential BFS
+		fmt.Println("Running best first search with user input")
+		var game GameState
+		game.state = b
+		game.cost = 0
+		game.hValue = cartesianDistanceHeuristic(b)
+		fmt.Println(game.bfs(func(g GameState) int { return 0 }, cartesianDistanceHeuristic))
 	} else {
 		getBoard(3, 4).print()
 	}
