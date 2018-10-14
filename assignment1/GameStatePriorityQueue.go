@@ -14,6 +14,7 @@ type GameState struct {
 	moveMade  string
 	parent    *GameState
 	gameStats *GameStatistics
+	depth     int
 }
 
 // GameStatePriorityQueue is a PriorityQueue for game states

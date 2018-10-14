@@ -12,7 +12,7 @@ root
 └─── assignment1
     │    main.go
     │    board.go
-    │    astar.go
+    │    asearch.go
     │    board_test.go
     │    dfs.go
     │    heuristics.go

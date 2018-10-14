@@ -17,6 +17,7 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 
 	g.hValue = fn(g.state)
 	g.cost = gn(g)
+	g.depth = 1
 	g.gameStats.Init()
 	pq := make(GameStatePriorityQueue, 0)
 	heap.Init(&pq)
@@ -41,6 +42,7 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 					state:    board,
 					hValue:   fn(board),
 					cost:     gn(*currState),
+					depth:    currState.depth + 1,
 					parent:   currState,
 					moveMade: board.findBlankPosition().toLetter() + " " + currState.state.key() + "\n",
 				}
