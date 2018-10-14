@@ -59,11 +59,18 @@ func (q *GameStatePriorityQueue) Update(gameState *GameState, hValue float64, co
 // Print - print the priority queue state in order
 func (q GameStatePriorityQueue) Print() {
 	fmt.Print("Priority Queue: ")
+	pq := make(GameStatePriorityQueue, 0)
+	heap.Init(&pq)
 
-	for i, state := range q {
+	for _, state := range q {
+		pq.Push(state)
+	}
+
+	for pq.Len() > 0 {
+		state := heap.Pop(&pq).(*GameState)
 		fmt.Print(state.hValue)
 
-		if i < q.Len()-1 {
+		if pq.Len() > 0 {
 			fmt.Print(", ")
 		}
 	}
