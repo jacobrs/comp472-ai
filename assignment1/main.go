@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -38,16 +39,14 @@ func main() {
 		fmt.Println("Running best first search")
 		var game GameState
 		game.state = b
-		game.cost = 0
-		game.hValue = cartesianDistanceHeuristic(b)
+		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
 		fmt.Println(game.bestFirstSearch(cartesianDistanceHeuristic))
 	} else {
 		// Running on sequential BFS
 		fmt.Println("Running A search")
 		var game GameState
 		game.state = b
-		game.cost = 0
-		game.hValue = cartesianDistanceHeuristic(b)
+		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
 		fmt.Println(game.aSearch(cartesianDistanceHeuristic))
 	}
 }

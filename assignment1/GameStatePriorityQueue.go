@@ -7,12 +7,13 @@ import (
 
 // GameState is a state of the board and its cost and heuristic value
 type GameState struct {
-	state    board
-	hValue   float64
-	cost     float64
-	index    int // The index of the gameState in the heap.
-	parent   *GameState
-	moveMade string
+	state     board
+	hValue    float64
+	cost      int
+	index     int // The index of the gameState in the heap.
+	moveMade  string
+	parent    *GameState
+	gameStats *GameStatistics
 }
 
 // GameStatePriorityQueue is a PriorityQueue for game states
@@ -22,7 +23,7 @@ func (q GameStatePriorityQueue) Len() int { return len(q) }
 
 func (q GameStatePriorityQueue) Less(i, j int) bool {
 	// We want Pop to give us the lowest value
-	return q[i].hValue+q[i].cost < q[j].hValue+q[j].cost
+	return q[i].hValue+float64(q[i].cost) < q[j].hValue+float64(q[j].cost)
 }
 
 func (q GameStatePriorityQueue) Swap(i, j int) {
@@ -50,7 +51,7 @@ func (q *GameStatePriorityQueue) Pop() interface{} {
 }
 
 // Update - modifies the priority and value of an gameState in the queue.
-func (q *GameStatePriorityQueue) Update(gameState *GameState, hValue float64, cost float64, priority int) {
+func (q *GameStatePriorityQueue) Update(gameState *GameState, hValue float64, cost int, priority int) {
 	gameState.hValue = hValue
 	gameState.cost = cost
 	heap.Fix(q, gameState.index)

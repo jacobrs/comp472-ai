@@ -15,15 +15,19 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 	var currState *GameState
 	seenStates := make(map[string]bool)
 
-	g.cost = 0
+	g.hValue = fn(g.state)
+	g.cost = gn(g)
+	g.gameStats.Init()
 	pq := make(GameStatePriorityQueue, 0)
 	heap.Init(&pq)
 	heap.Push(&pq, &g)
 
 	for pq.Len() > 0 {
 		currState = heap.Pop(&pq).(*GameState)
+		g.gameStats.Step()
 
 		if currState.hValue == 0 {
+			g.gameStats.End(currState)
 			return currState.constructPath()
 		}
 
@@ -36,7 +40,7 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 				addState := &GameState{
 					state:    board,
 					hValue:   fn(board),
-					cost:     float64(gn(*currState)),
+					cost:     gn(*currState),
 					parent:   currState,
 					moveMade: board.findBlankPosition().toLetter() + " " + currState.state.key() + "\n",
 				}
