@@ -12,11 +12,12 @@ root
 └─── assignment1
     │    main.go
     │    board.go
+    │    astar.go
     │    board_test.go
     │    dfs.go
     │    heuristics.go
-    |    GameStatePriorityQueue.go
-    |    GameStatePriorityQueue_test.go
-    |    helpers.go
+    │    GameStatePriorityQueue.go
+    │    GameStatePriorityQueue_test.go
+    │    helpers.go
     └─── bfs.go
 ```
