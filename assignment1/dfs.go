@@ -4,7 +4,7 @@ func (b board) dfs(visited *[]string, path []string, goal string, maxDepth int, 
 	if b.key() == goal {
 		return path
 	}
-	if currentDepth > maxDepth {
+	if currentDepth > maxDepth && maxDepth >= 0 {
 		return []string{}
 	}
 	*visited = append(*visited, b.key())
