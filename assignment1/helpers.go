@@ -36,7 +36,7 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 				addState := &GameState{
 					state:    board,
 					hValue:   fn(board),
-					cost:     0,
+					cost:     float64(gn(*currState)),
 					parent:   currState,
 					moveMade: board.findBlankPosition().toLetter() + " " + currState.state.key() + "\n",
 				}
