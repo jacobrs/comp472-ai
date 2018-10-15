@@ -100,7 +100,7 @@ func bfs(b board, rowSize int) {
 func iterativeDepthDFS(b board) {
 	var game GameState
 	game.state = b
-	fmt.Println("Running iterative depth first search up to a max depth of 100")
+	fmt.Println("Running iterative deepening depth first search up to a max depth of 100")
 	fmt.Println("(may take a long time to terminate with sufficient memory)")
 	path := []string{}
 	currDepth := 1
