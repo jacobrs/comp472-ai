@@ -67,7 +67,7 @@ func experimentMode() {
 	var b board
 
 	if len(os.Args) > 2 && os.Args[2] == "custom" {
-		_, rowSize := getBoardDimensionsFromCLI(4, 5)
+		_, rowSize := getBoardDimensionsFromCLI(4)
 		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 		strList := (strings.Split(os.Args[3], " "))
 		b = parseBoard(strList, rowSize)
@@ -84,7 +84,7 @@ func experimentMode() {
 			}
 		}
 
-		amtRows, rowSize := getBoardDimensionsFromCLI(3, 4)
+		amtRows, rowSize := getBoardDimensionsFromCLI(3)
 		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 
 		for i := 0; i < int(numRuns); i++ {
@@ -96,16 +96,24 @@ func experimentMode() {
 	}
 }
 
-func getBoardDimensionsFromCLI(amtRowsIndex int, rowSizeIndex int) (int, int) {
-	amtRows, e := strconv.Atoi(os.Args[amtRowsIndex])
+func getBoardDimensionsFromCLI(amtRowsIndex int) (int, int) {
+	var amtRows int
+	var rowSize int
+	if len(os.Args) > amtRowsIndex+1 {
+		var e error
+		amtRows, e = strconv.Atoi(os.Args[amtRowsIndex])
 
-	if e != nil {
+		if e != nil {
+			amtRows = 3
+		}
+
+		rowSize, e = strconv.Atoi(os.Args[amtRowsIndex+1])
+
+		if e != nil {
+			rowSize = 4
+		}
+	} else {
 		amtRows = 3
-	}
-
-	rowSize, e := strconv.Atoi(os.Args[rowSizeIndex])
-
-	if e != nil {
 		rowSize = 4
 	}
 

@@ -152,3 +152,44 @@ func (b board) swap(p1 position, p2 position) board {
 func (p position) toLetter() string {
 	return string((p.row * 4) + p.col + 97)
 }
+
+func (b board) getMoveType(to board) int {
+	fromP := b.findBlankPosition()
+	toP := to.findBlankPosition()
+	// UP = 0, UP-RIGHT = 1, RIGHT = 2, ..., UP-LEFT = 7
+	moveValues := map[string]int{
+		"UP":         0,
+		"UP-RIGHT":   1,
+		"RIGHT":      2,
+		"DOWN-RIGHT": 3,
+		"DOWN":       4,
+		"DOWN-LEFT":  5,
+		"LEFT":       6,
+		"UP-LEFT":    7,
+	}
+
+	moveMade := ""
+
+	// Movements are considered in the opposite direction of where the blank moved
+	if fromP.row < toP.row {
+		moveMade += "UP"
+
+		if fromP.col > toP.col || fromP.col < toP.col {
+			moveMade += "-"
+		}
+	} else if fromP.row > toP.row {
+		moveMade += "DOWN"
+
+		if fromP.col > toP.col || fromP.col < toP.col {
+			moveMade += "-"
+		}
+	}
+
+	if fromP.col > toP.col {
+		moveMade += "RIGHT"
+	} else if fromP.col < toP.col {
+		moveMade += "LEFT"
+	}
+
+	return moveValues[moveMade]
+}
