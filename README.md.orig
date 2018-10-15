@@ -11,8 +11,12 @@ root
 │    README.md
 └─── assignment1
     │    main.go
+<<<<<<< HEAD
     │    bfs.go
+=======
+>>>>>>> f5c2680ce3ba4517ee1a8e13ff281b988578c353
     │    board.go
+    │    asearch.go
     │    board_test.go
     │    asearch.go
     │    dfs.go

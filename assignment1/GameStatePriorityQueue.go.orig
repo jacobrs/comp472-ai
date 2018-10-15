@@ -1,4 +1,4 @@
-ackage main
+package main
 
 import (
 	"container/heap"
@@ -24,12 +24,15 @@ func (q GameStatePriorityQueue) Len() int { return len(q) }
 
 func (q GameStatePriorityQueue) Less(i, j int) bool {
 	// We want Pop to give us the lowest value
+<<<<<<< HEAD
 	if q[i].hValue+float64(q[i].cost) == q[j].hValue+float64(q[j].cost) {
 		moveOneType := q[i].parent.state.getMoveValue(q[i].state)
 		moveTwoType := q[j].parent.state.getMoveValue(q[j].state)
 
 		return moveOneType < moveTwoType
 	}
+=======
+>>>>>>> f5c2680ce3ba4517ee1a8e13ff281b988578c353
 	return q[i].hValue+float64(q[i].cost) < q[j].hValue+float64(q[j].cost)
 }
 
@@ -69,11 +72,19 @@ func (q GameStatePriorityQueue) Print() {
 	fmt.Print("Priority Queue: ")
 	pq := make(GameStatePriorityQueue, 0)
 	heap.Init(&pq)
+<<<<<<< HEAD
 
 	for _, state := range q {
 		pq.Push(state)
 	}
 
+=======
+
+	for _, state := range q {
+		pq.Push(state)
+	}
+
+>>>>>>> f5c2680ce3ba4517ee1a8e13ff281b988578c353
 	for pq.Len() > 0 {
 		state := heap.Pop(&pq).(*GameState)
 		fmt.Print(state.hValue)
