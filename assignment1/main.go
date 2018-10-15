@@ -36,12 +36,8 @@ func assignmentMode() {
 
 	if len(os.Args) > 3 {
 		strList := (strings.Split(os.Args[3], " "))
-		if len(os.Args) > 5 {
-			rowSize, _ = strconv.Atoi(os.Args[5])
-			b = parseBoard(strList, rowSize)
-		} else {
-			b = parseBoard(strList, 4)
-		}
+		_, rowSize = getBoardDimensionsFromCLI(4)
+		b = parseBoard(strList, rowSize)
 	} else {
 		b = getBoard(3, 4)
 	}
