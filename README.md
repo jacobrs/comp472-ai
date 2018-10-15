@@ -26,10 +26,12 @@ root
 
 ## CLI Names
 
-`searchType = "dfs" or "bfs" or "astar", for any other string it runs the full assignment flow`
-`boardInput = "[space separated numbers representing the board's initial state]"`
-`numRuns = number of runs you want to run in experiment mode`
-`numRows and numCols = need to be specified in experiment mode if you switch the board size`
+```
+searchType = "dfs" or "bfs" or "astar", for any other string it runs the full assignment flow
+boardInput = "[space separated numbers representing the board's initial state]"
+numRuns = number of runs you want to run in experiment mode
+numRows and numCols = need to be specified in experiment mode if you switch the board size
+```
 
 ## Using assignment mode
 
