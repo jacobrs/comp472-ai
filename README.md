@@ -5,9 +5,16 @@
 If you follow the following steps you will get the output of the first assignment, the rest of the readme explains how to use more options that our program provides:
 
 ```
+For a random puzzle:
     1. Change directory to the assignment1 directory
     2. Run `go build` to build the assignment
     3. Run `./assignment1 "assignment"`, where assignment1 is the built binary file
+
+For a specified puzzle:
+    1. Change directory to the assignment1 directory
+    2. Run `go build` to build the assignment
+    3. Run `./assignment1 "assignment" "all" "[space separated puzzle]"`, where assignment1 is the built binary file
+    4. Example: `./assignment1 "assignment" "all" "1 0 3 7 5 2 6 4 9 10 11 8"`
 ```
 
 ### About this repository
