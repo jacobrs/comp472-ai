@@ -102,7 +102,7 @@ func iterativeDepthDFS(b board) {
 	fmt.Println("Running iterative depth first search")
 	path := []string{}
 	maxDepth := 10
-	for len(path) <= 1 {
+	for len(path) <= 0 {
 		visited := make(map[string]bool)
 		path = b.dfs(visited, []string{"0 " + b.key()}, b.goalState(), maxDepth, 1)
 		maxDepth *= 2
