@@ -33,7 +33,7 @@ func main() {
 	if searchAlgorithm == "dfs" {
 		fmt.Println("Running depth first search")
 		visited := make(map[string]bool)
-		prettyPrintPath(b.dfs(visited, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", 100000, 1))
+		prettyPrintPath(b.dfs(visited, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", -1, 1))
 	} else if searchAlgorithm == "bfs" {
 		// Running on sequential BFS
 		fmt.Println("Running best first search")

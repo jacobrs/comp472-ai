@@ -12,9 +12,11 @@ func (b board) dfs(visited map[string]bool, path []string, goal string, maxDepth
 		if !visited[child.key()] {
 			result := child.dfs(visited, append(path, child.findBlankPosition().toLetter()+" "+child.key()), goal, maxDepth, currentDepth+1)
 			if len(result) > 0 {
+				visited[b.key()] = false
 				return result
 			}
 		}
 	}
+	visited[b.key()] = false
 	return []string{}
 }
