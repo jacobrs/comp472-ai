@@ -26,8 +26,9 @@ func main() {
 }
 
 func assignmentMode() {
-	searchAlgorithm := "dfs"
+	var rowSize = 4
 	var b board
+	searchAlgorithm := "dfs"
 
 	if len(os.Args) > 2 {
 		searchAlgorithm = os.Args[2]
@@ -35,8 +36,8 @@ func assignmentMode() {
 
 	if len(os.Args) > 3 {
 		strList := (strings.Split(os.Args[3], " "))
-		if len(os.Args) > 4 {
-			rowSize, _ := strconv.Atoi(os.Args[4])
+		if len(os.Args) > 5 {
+			rowSize, _ = strconv.Atoi(os.Args[5])
 			b = parseBoard(strList, rowSize)
 		} else {
 			b = parseBoard(strList, 4)
@@ -53,46 +54,48 @@ func assignmentMode() {
 		dfs(b)
 	} else if searchAlgorithm == "bfs" {
 		// Running on sequential BFS
-		bfs(b)
+		bfs(b, rowSize)
 	} else if searchAlgorithm == "astar" {
 		// Running on sequential BFS
-		astar(b)
+		astar(b, rowSize)
 	} else {
 		// Run against IterativeDFS, DFS, BFS with h1, BFS with h2, AStar with h1, and AStar with h2
-		astar(b)
-		bfs(b)
+		astar(b, rowSize)
+		bfs(b, rowSize)
 		iterativeDepthDFS(b)
 		dfs(b)
 	}
 }
 
-func astar(b board) {
+func astar(b board, rowSize int) {
 	fmt.Println("Running A search h1")
 	var game GameState
 	game.state = b
 	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 	output := game.aSearch(heuristic)
 	prettyPrintPath(output)
 	writePrettyPath(output, "./puzzleAs-h1.txt")
 	fmt.Println("Running A search h2")
-	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, 4) }
+	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
+	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, rowSize) }
 	output = game.aSearch(heuristic)
 	prettyPrintPath(output)
 	writePrettyPath(output, "./puzzleAs-h2.txt")
 }
 
-func bfs(b board) {
+func bfs(b board, rowSize int) {
 	var game GameState
 	fmt.Println("Running best first search h1")
 	game.state = b
 	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 	output := game.bestFirstSearch(heuristic)
 	prettyPrintPath(output)
 	writePrettyPath(output, "./puzzleBFS-h1.txt")
 	fmt.Println("Running best first search h2")
-	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, 4) }
+	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
+	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, rowSize) }
 	output = game.bestFirstSearch(heuristic)
 	prettyPrintPath(output)
 	writePrettyPath(output, "./puzzleBFS-h2.txt")
