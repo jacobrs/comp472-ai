@@ -51,17 +51,26 @@ func createBoardFromKey(key string, rowSize int) board {
 
 func (b board) print() {
 	fmt.Printf("Key: %s\n", b.key())
-	fmt.Println("---------------------")
+	printLine(len(b[0]))
 	for _, row := range b {
-		fmt.Print("|")
+		fmt.Print("│")
 		for _, col := range row {
 			if col < 10 {
 				fmt.Print(" ")
 			}
-			fmt.Printf(" %d |", col)
+			fmt.Printf(" %d │", col)
 		}
-		fmt.Println("\n---------------------")
+		fmt.Println()
+		printLine(len(b[0]))
 	}
+}
+
+func printLine(rowSize int) {
+	line := "─"
+	for i := 0; i < rowSize; i++ {
+		line += "─────"
+	}
+	fmt.Println(line)
 }
 
 func (b board) key() string {
