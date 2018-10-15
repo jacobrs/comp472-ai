@@ -98,14 +98,15 @@ func bfs(b board, rowSize int) {
 }
 
 func iterativeDepthDFS(b board) {
-	fmt.Println("Running iterative depth first search up to a max depth of 100")
+	var game GameState
+	game.state = b
+	fmt.Println("Running iterative deepening depth first search up to a max depth of 100")
 	fmt.Println("(may take a long time to terminate with sufficient memory)")
 	path := []string{}
 	currDepth := 1
 	maxDepth := 100
 	for currDepth <= maxDepth {
-		visited := make(map[string]bool)
-		path = b.dfs(visited, []string{"0 " + b.key()}, b.goalState(), currDepth, 1)
+		path = game.dfs(b.goalState(), currDepth)
 		currDepth++
 
 		if len(path) > 0 {
@@ -117,10 +118,11 @@ func iterativeDepthDFS(b board) {
 }
 
 func dfs(b board) {
+	var game GameState
+	game.state = b
 	fmt.Println("Running depth first search with no max depth")
 	fmt.Println("(may take a long time to terminate with sufficient memory)")
-	visited := make(map[string]bool)
-	path := b.dfs(visited, []string{"0 " + b.key()}, b.goalState(), -1, 1)
+	path := game.dfs(b.goalState(), -1)
 	prettyPrintPath(path)
 	writePrettyPath(path, "./puzzleDFS.txt")
 }

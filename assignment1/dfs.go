@@ -1,24 +1,39 @@
 package main
 
-// Tail recursive implementation of DFS algorithm
+import (
+	stack "github.com/golang-collections/collections/stack"
+)
 
-func (b board) dfs(visited map[string]bool, path []string, goal string, maxDepth int, currentDepth int) []string {
-	if b.key() == goal {
-		return path
-	}
-	if currentDepth > maxDepth && maxDepth >= 0 {
-		return []string{}
-	}
-	visited[b.key()] = true
-	for _, child := range b.possibleMoves() {
-		if !visited[child.key()] {
-			result := child.dfs(visited, append(path, child.findBlankPosition().toLetter()+" "+child.key()), goal, maxDepth, currentDepth+1)
-			if len(result) > 0 {
-				visited[b.key()] = false
-				return result
+// Iterative DFS algorithm
+func (g GameState) dfs(goal string, maxDepth int) []string {
+	stateStack := stack.New()
+	stateStack.Push(&g)
+
+	for stateStack.Len() > 0 {
+		currState := stateStack.Pop().(*GameState)
+		currDepth := currState.depth
+
+		if currState.state.key() == goal {
+			return currState.constructPath()
+		}
+
+		if currDepth > maxDepth && maxDepth >= 0 {
+			continue
+		}
+
+		for _, board := range currState.state.possibleMoves() {
+			addState := &GameState{
+				state:    board,
+				hValue:   0,
+				cost:     0,
+				depth:    currState.depth + 1,
+				parent:   currState,
+				moveMade: board.findBlankPosition().toLetter() + " " + board.key(),
 			}
+
+			stateStack.Push(addState)
 		}
 	}
-	visited[b.key()] = false
+
 	return []string{}
 }
