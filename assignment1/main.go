@@ -69,9 +69,14 @@ func experimentMode() {
 
 	if len(os.Args) > 2 && os.Args[2] == "custom" {
 		_, rowSize := getBoardDimensionsFromCLI(4)
+		fmt.Println("Running against cartesianDistanceHeuristic")
 		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 		strList := (strings.Split(os.Args[3], " "))
 		b = parseBoard(strList, rowSize)
+		runExperiment(b, heuristic)
+
+		fmt.Println("Running against modifiedManhattanDistanceHeuristic")
+		heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, rowSize) }
 		runExperiment(b, heuristic)
 	} else {
 		numRuns := 5
@@ -86,13 +91,18 @@ func experimentMode() {
 		}
 
 		amtRows, rowSize := getBoardDimensionsFromCLI(3)
-		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
+		heuristicEuclidean := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
+		heuristicManhatten := func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, rowSize) }
 
 		for i := 0; i < int(numRuns); i++ {
 			// Generate a random board
 			b = getBoard(amtRows, rowSize)
 
-			runExperiment(b, heuristic)
+			fmt.Println("Running against cartesianDistanceHeuristic")
+			runExperiment(b, heuristicEuclidean)
+
+			fmt.Println("Running against modifiedManhattanDistanceHeuristic")
+			runExperiment(b, heuristicManhatten)
 		}
 	}
 }
