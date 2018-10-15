@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -31,7 +32,8 @@ func (gs *GameStatistics) End(g *GameState) {
 	gs.depth = g.depth
 	gs.timeTaken = gs.endTime.Sub(gs.startTime)
 
-	// Calculate effective branching factor
+	// Calculate effective branching factor using an approximation
+	gs.effectiveBranchingFactor = math.Pow(float64(gs.numberOfNodes), 1/float64(gs.depth))
 
 	fmt.Println(fmt.Sprintf("Num nodes: %d", gs.numberOfNodes))
 	fmt.Println(fmt.Sprintf("EBF: %.5f", gs.effectiveBranchingFactor))
