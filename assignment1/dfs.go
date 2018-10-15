@@ -21,7 +21,9 @@ func (g GameState) dfs(goal string, maxDepth int) []string {
 			continue
 		}
 
-		for _, board := range currState.state.possibleMoves() {
+		moves := currState.state.possibleMoves()
+		reverse(moves)
+		for _, board := range moves {
 			addState := &GameState{
 				state:    board,
 				hValue:   0,
