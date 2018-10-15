@@ -20,6 +20,9 @@ For a specified puzzle:
 ### About this repository
 This repository stores mini projects that have been completed during the course of the class. This currently includes a state space search mini project with a modified 8 puzzle game.
 
+### Definition of a Move
+For this project we chose to use the definition of a move as moving INTO the blank tile, that is if a tile moves UP into the blank spot then it is considered to be an UP move.
+
 ### Directory Structure
 
 ```
