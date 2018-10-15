@@ -1,5 +1,7 @@
 package main
 
+// Tail recursive implementation of DFS algorithm
+
 func (b board) dfs(visited map[string]bool, path []string, goal string, maxDepth int, currentDepth int) []string {
 	if b.key() == goal {
 		return path

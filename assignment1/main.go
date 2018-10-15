@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -34,34 +35,88 @@ func assignmentMode() {
 
 	if len(os.Args) > 3 {
 		strList := (strings.Split(os.Args[3], " "))
-		b = parseBoard(strList, 4)
+		if len(os.Args) > 4 {
+			rowSize, _ := strconv.Atoi(os.Args[4])
+			b = parseBoard(strList, rowSize)
+		} else {
+			b = parseBoard(strList, 4)
+		}
 	} else {
 		b = getBoard(3, 4)
 	}
 
-	if searchAlgorithm == "dfs" {
-		fmt.Println("Running depth first search")
-		visited := make(map[string]bool)
-		prettyPrintPath(b.dfs(visited, []string{}, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]", -1, 1))
+	b.print()
+
+	if searchAlgorithm == "idfs" {
+		iterativeDepthDFS(b)
+	} else if searchAlgorithm == "dfs" {
+		dfs(b)
 	} else if searchAlgorithm == "bfs" {
 		// Running on sequential BFS
-		fmt.Println("Running best first search")
-		var game GameState
-		game.state = b
-		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
-		fmt.Println(game.bestFirstSearch(heuristic))
+		bfs(b)
 	} else if searchAlgorithm == "astar" {
 		// Running on sequential BFS
-		fmt.Println("Running A search")
-		var game GameState
-		game.state = b
-		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
-		fmt.Println(game.aSearch(heuristic))
+		astar(b)
 	} else {
-		// Run against DFS, BFS with h1, BFS with h2, AStar with h1, and AStar with h2
+		// Run against IterativeDFS, DFS, BFS with h1, BFS with h2, AStar with h1, and AStar with h2
+		astar(b)
+		bfs(b)
+		iterativeDepthDFS(b)
+		dfs(b)
 	}
+}
+
+func astar(b board) {
+	fmt.Println("Running A search h1")
+	var game GameState
+	game.state = b
+	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
+	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+	output := game.aSearch(heuristic)
+	prettyPrintPath(output)
+	writePrettyPath(output, "./puzzleAs-h1.txt")
+	fmt.Println("Running A search h2")
+	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, 4) }
+	output = game.aSearch(heuristic)
+	prettyPrintPath(output)
+	writePrettyPath(output, "./puzzleAs-h2.txt")
+}
+
+func bfs(b board) {
+	var game GameState
+	fmt.Println("Running best first search h1")
+	game.state = b
+	game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
+	heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+	output := game.bestFirstSearch(heuristic)
+	prettyPrintPath(output)
+	writePrettyPath(output, "./puzzleBFS-h1.txt")
+	fmt.Println("Running best first search h2")
+	heuristic = func(b board) float64 { return modifiedManhattanDistanceHeuristic(b, 4) }
+	output = game.bestFirstSearch(heuristic)
+	prettyPrintPath(output)
+	writePrettyPath(output, "./puzzleBFS-h2.txt")
+}
+
+func iterativeDepthDFS(b board) {
+	fmt.Println("Running iterative depth first search")
+	path := []string{}
+	maxDepth := 10
+	for len(path) <= 1 {
+		visited := make(map[string]bool)
+		path = b.dfs(visited, []string{"0 " + b.key()}, b.goalState(), maxDepth, 1)
+		maxDepth *= 2
+	}
+	prettyPrintPath(path)
+	writePrettyPath(path, "./puzzleIterativeDFS.txt")
+}
+
+func dfs(b board) {
+	fmt.Println("Running depth first search")
+	visited := make(map[string]bool)
+	path := b.dfs(visited, []string{"0 " + b.key()}, b.goalState(), -1, 1)
+	prettyPrintPath(path)
+	writePrettyPath(path, "./puzzleDFS.txt")
 }
 
 func experimentMode() {
@@ -149,6 +204,14 @@ func prettyPrintPath(path []string) {
 	for _, pos := range path {
 		fmt.Println(pos)
 	}
+}
+
+func writePrettyPath(path []string, filename string) {
+	var data []byte
+	for _, line := range path {
+		data = append(data, []byte(line+"\n")...)
+	}
+	ioutil.WriteFile(filename, data, 0666)
 }
 
 func contains(keys []string, key string) bool {

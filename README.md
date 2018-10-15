@@ -33,9 +33,7 @@ root
     └─── main.go
 ```
 
-### CLI
-
-## CLI Names
+### CLI Names
 
 ```
 searchType = "dfs" or "bfs" or "astar", for any other string it runs the full assignment flow
@@ -44,7 +42,7 @@ numRuns = number of runs you want to run in experiment mode
 numRows and numCols = need to be specified in experiment mode if you switch the board size
 ```
 
-## Using assignment mode
+### Using assignment mode
 
 The currently supported command for experiment mode takes the following input format:
 
@@ -59,7 +57,7 @@ Examples:
 ./builtBinary "assignment" "all" "11 10 9 8 7 6 5 4 3 2 1 0" 2 6 // Run all algorithms against the specified board, given the specified dimensions
 ```
 
-## Using experiment mode
+### Using experiment mode
 
 The currently supported command for experiment mode takes the following input format:
 

@@ -23,11 +23,13 @@ func getBoard(n int, m int) board {
 
 func createBoard(list []int, rowSize int) board {
 	board := board{}
-	for i := 0; i < len(list); i++ {
+	amtOfNums := len(list)
+	for i := 0; i <= amtOfNums; i++ {
 		row := []int{}
 		for x := 0; x < rowSize; x++ {
 			row = append(row, list[0])
 			list = list[1:]
+			i++
 		}
 		board = append(board, row)
 	}
@@ -192,4 +194,19 @@ func (b board) getMoveValue(to board) int {
 	}
 
 	return moveValues[moveMade]
+}
+
+func (b board) goalState() string {
+	goal := "["
+	for i, row := range b {
+		for j := range row {
+			num := (i * len(row)) + j + 1
+			if num != len(b)*len(b[0]) {
+				goal += strconv.Itoa(num) + ", "
+			} else {
+				goal += "0"
+			}
+		}
+	}
+	return goal + "]"
 }

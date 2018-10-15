@@ -94,7 +94,7 @@ func (g GameState) constructPath() []string {
 		g = *g.parent
 	}
 
-	path = append([]string{"0 " + g.state.key() + "\n"}, path...)
+	path = append([]string{"0 " + g.state.key()}, path...)
 
 	return path
 }
