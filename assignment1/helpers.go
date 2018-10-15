@@ -1,6 +1,9 @@
 package main
 
-import "container/heap"
+import (
+	"container/heap"
+	"strconv"
+)
 
 // Abs - Helper for returning the absolute value of an integer
 func Abs(val int) int {
@@ -52,4 +55,15 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 	}
 
 	return nil
+}
+
+func parseBoard(input []string, rowSize int) board {
+	numList := []int{}
+	for _, i := range input {
+		num, e := strconv.Atoi(i)
+		if e == nil {
+			numList = append(numList, num)
+		}
+	}
+	return createBoard(numList, rowSize)
 }

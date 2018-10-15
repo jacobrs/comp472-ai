@@ -13,6 +13,8 @@ func main() {
 
 	if len(os.Args) > 1 {
 		programMode = os.Args[1]
+	} else {
+		fmt.Println("Invalid command format")
 	}
 
 	if programMode == "assignment" {
@@ -32,14 +34,7 @@ func assignmentMode() {
 
 	if len(os.Args) > 3 {
 		strList := (strings.Split(os.Args[3], " "))
-		numList := []int{}
-		for _, i := range strList {
-			num, e := strconv.Atoi(i)
-			if e == nil {
-				numList = append(numList, num)
-			}
-		}
-		b = createBoard(numList)
+		b = parseBoard(strList, 4)
 	} else {
 		b = getBoard(3, 4)
 	}
@@ -53,49 +48,68 @@ func assignmentMode() {
 		var game GameState
 		game.state = b
 		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-		fmt.Println(game.bestFirstSearch(cartesianDistanceHeuristic))
-	} else {
+		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+		fmt.Println(game.bestFirstSearch(heuristic))
+	} else if searchAlgorithm == "astar" {
 		// Running on sequential BFS
 		fmt.Println("Running A search")
 		var game GameState
 		game.state = b
 		game.gameStats = &GameStatistics{0, 0.0, 0, time.Time{}, time.Time{}, 0}
-		fmt.Println(game.aSearch(cartesianDistanceHeuristic))
+		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, 4) }
+		fmt.Println(game.aSearch(heuristic))
+	} else {
+		// Run against DFS, BFS with h1, BFS with h2, AStar with h1, and AStar with h2
 	}
 }
 
 func experimentMode() {
 	var b board
-	var numRuns int64 = 5
-	var e error
 
-	if len(os.Args) > 2 {
-		numRuns, e = strconv.ParseInt(os.Args[2], 10, 8)
-
-		if e != nil {
-			fmt.Println("Was expecting an integer for the number of runs")
-			os.Exit(1)
-		}
-	}
-
-	if len(os.Args) > 3 {
+	if len(os.Args) > 2 && os.Args[2] == "custom" {
+		_, rowSize := getBoardDimensionsFromCLI(4, 5)
+		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
 		strList := (strings.Split(os.Args[3], " "))
-		numList := []int{}
-		for _, i := range strList {
-			num, e := strconv.Atoi(i)
-			if e == nil {
-				numList = append(numList, num)
+		b = parseBoard(strList, rowSize)
+		runExperiment(b, heuristic)
+	} else {
+		numRuns := 5
+		var e error
+		if len(os.Args) > 2 {
+			numRuns, e = strconv.Atoi(os.Args[2])
+
+			if e != nil {
+				fmt.Println("Was expecting an integer for the number of runs")
+				os.Exit(1)
 			}
 		}
-		b = createBoard(numList)
-		runExperiment(b, cartesianDistanceHeuristic)
-	} else {
-		for i := 0; i < int(numRuns); i++ {
-			b = getBoard(3, 4)
 
-			runExperiment(b, cartesianDistanceHeuristic)
+		amtRows, rowSize := getBoardDimensionsFromCLI(3, 4)
+		heuristic := func(b board) float64 { return cartesianDistanceHeuristic(b, rowSize) }
+
+		for i := 0; i < int(numRuns); i++ {
+			// Generate a random board
+			b = getBoard(amtRows, rowSize)
+
+			runExperiment(b, heuristic)
 		}
 	}
+}
+
+func getBoardDimensionsFromCLI(amtRowsIndex int, rowSizeIndex int) (int, int) {
+	amtRows, e := strconv.Atoi(os.Args[amtRowsIndex])
+
+	if e != nil {
+		amtRows = 3
+	}
+
+	rowSize, e := strconv.Atoi(os.Args[rowSizeIndex])
+
+	if e != nil {
+		rowSize = 4
+	}
+
+	return amtRows, rowSize
 }
 
 func runExperiment(b board, heuristic func(board) float64) {

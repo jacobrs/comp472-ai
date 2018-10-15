@@ -18,12 +18,11 @@ type position struct {
 func getBoard(n int, m int) board {
 	seed := rand.NewSource(time.Now().UnixNano())
 	list := rand.New(seed).Perm(n * m)
-	return createBoard(list)
+	return createBoard(list, m)
 }
 
-func createBoard(list []int) board {
+func createBoard(list []int, rowSize int) board {
 	board := board{}
-	rowSize := 4
 	for i := 0; i < len(list); i++ {
 		row := []int{}
 		for x := 0; x < rowSize; x++ {
@@ -35,7 +34,7 @@ func createBoard(list []int) board {
 	return board
 }
 
-func createBoardFromKey(key string) board {
+func createBoardFromKey(key string, rowSize int) board {
 	formattedKey := key[3 : len(key)-1]
 	strList := (strings.Split(formattedKey, ","))
 	numList := []int{}
@@ -45,7 +44,7 @@ func createBoardFromKey(key string) board {
 			numList = append(numList, num)
 		}
 	}
-	return createBoard(numList)
+	return createBoard(numList, rowSize)
 }
 
 func (b board) print() {
