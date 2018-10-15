@@ -15,11 +15,12 @@ root
     │    asearch.go
     │    board_test.go
     │    dfs.go
-    │    heuristics.go
     │    GameStatePriorityQueue.go
     │    GameStatePriorityQueue_test.go
     │    helpers.go
-    └─── bfs.go
+    │    heuristics.go
+    │    heuristics_test.go
+    └─── main.go
 ```
 
 ### CLI
