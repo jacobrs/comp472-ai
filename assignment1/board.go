@@ -153,7 +153,7 @@ func (p position) toLetter() string {
 	return string((p.row * 4) + p.col + 97)
 }
 
-func (b board) getMoveType(to board) int {
+func (b board) getMoveValue(to board) int {
 	fromP := b.findBlankPosition()
 	toP := to.findBlankPosition()
 	// UP = 0, UP-RIGHT = 1, RIGHT = 2, ..., UP-LEFT = 7

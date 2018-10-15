@@ -25,8 +25,8 @@ func (q GameStatePriorityQueue) Len() int { return len(q) }
 func (q GameStatePriorityQueue) Less(i, j int) bool {
 	// We want Pop to give us the lowest value
 	if q[i].hValue+float64(q[i].cost) == q[j].hValue+float64(q[j].cost) {
-		moveOneType := q[i].parent.state.getMoveType(q[i].state)
-		moveTwoType := q[j].parent.state.getMoveType(q[j].state)
+		moveOneType := q[i].parent.state.getMoveValue(q[i].state)
+		moveTwoType := q[j].parent.state.getMoveValue(q[j].state)
 
 		return moveOneType < moveTwoType
 	}
