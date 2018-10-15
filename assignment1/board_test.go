@@ -5,7 +5,7 @@ import (
 )
 
 func TestCreateBoard(t *testing.T) {
-	board := createBoard([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0})
+	board := createBoard([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0}, 4)
 	if len(board) != 3 {
 		t.Error("Board is not 3 rows tall")
 	}
