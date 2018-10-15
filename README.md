@@ -10,14 +10,15 @@ This repository stores mini projects that have been completed during the course 
 root
 │    README.md
 └─── assignment1
-    │    main.go
-    │    board.go
     │    astar.go
+    │    bfs.go
+    │    board.go
     │    board_test.go
     │    dfs.go
-    │    heuristics.go
     │    GameStatePriorityQueue.go
     │    GameStatePriorityQueue_test.go
     │    helpers.go
-    └─── bfs.go
+    │    heuristics.go
+    │    heuristics_test.go
+    └─── main.go
 ```

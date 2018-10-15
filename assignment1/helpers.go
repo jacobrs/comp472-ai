@@ -7,8 +7,15 @@ func Abs(val int) int {
 	if val < 0 {
 		return -val
 	}
-
 	return val
+}
+
+// Min - Helper for returning the smallest value between two integers
+func Min(a int, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
 
 func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64) []string {
