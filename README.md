@@ -11,9 +11,10 @@ root
 │    README.md
 └─── assignment1
     │    main.go
+    │    bfs.go
     │    board.go
-    │    asearch.go
     │    board_test.go
+    │    asearch.go
     │    dfs.go
     │    GameStatePriorityQueue.go
     │    GameStatePriorityQueue_test.go
