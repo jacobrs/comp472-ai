@@ -1,6 +1,9 @@
 package main
 
-import "container/heap"
+import (
+	"container/heap"
+	"strconv"
+)
 
 // Abs - Helper for returning the absolute value of an integer
 func Abs(val int) int {
@@ -22,15 +25,20 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 	var currState *GameState
 	seenStates := make(map[string]bool)
 
-	g.cost = 0
+	g.hValue = fn(g.state)
+	g.cost = gn(g)
+	g.depth = 1
+	g.gameStats.Init()
 	pq := make(GameStatePriorityQueue, 0)
 	heap.Init(&pq)
 	heap.Push(&pq, &g)
 
 	for pq.Len() > 0 {
 		currState = heap.Pop(&pq).(*GameState)
+		g.gameStats.Step()
 
 		if currState.hValue == 0 {
+			g.gameStats.End(currState)
 			return currState.constructPath()
 		}
 
@@ -43,9 +51,10 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 				addState := &GameState{
 					state:    board,
 					hValue:   fn(board),
-					cost:     float64(gn(*currState)),
+					cost:     gn(*currState),
+					depth:    currState.depth + 1,
 					parent:   currState,
-					moveMade: board.findBlankPosition().toLetter() + " " + currState.state.key() + "\n",
+					moveMade: board.findBlankPosition().toLetter() + " " + board.key() + "\n",
 				}
 				heap.Push(&pq, addState)
 			}
@@ -53,4 +62,15 @@ func (g GameState) genericSearch(gn func(GameState) int, fn func(board) float64)
 	}
 
 	return nil
+}
+
+func parseBoard(input []string, rowSize int) board {
+	numList := []int{}
+	for _, i := range input {
+		num, e := strconv.Atoi(i)
+		if e == nil {
+			numList = append(numList, num)
+		}
+	}
+	return createBoard(numList, rowSize)
 }

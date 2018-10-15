@@ -43,13 +43,14 @@ func TestCreateProrityQueueOrder(t *testing.T) {
 	r := rand.New(rand.NewSource(95))
 	for i := 0; i < 100; i++ {
 		currState := *g
-		currState.hValue = r.Float64()
+		currState.hValue = r.Float64() * 1000
 		heap.Push(&pq, &currState)
 	}
 
 	prevState := heap.Pop(&pq).(*GameState)
 	for pq.Len() > 0 {
 		nextState := heap.Pop(&pq).(*GameState)
+		pq.Print()
 		if nextState.hValue < prevState.hValue {
 			t.Error(fmt.Sprintf("Something went wrong Misorder: %f.3 and %f.3", prevState.hValue, nextState.hValue))
 		}
