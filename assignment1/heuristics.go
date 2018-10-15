@@ -20,12 +20,12 @@ func cartesianDistanceHeuristic(b board) float64 {
 	return cost
 }
 
-func modifiedManhattanDistanceHeuristic(b board) float64 {
+func modifiedManhattanDistanceHeuristic(b board, rowSize int) float64 {
 	cost := 0.0
 	for i, row := range b {
 		for j, num := range row {
 			if num != 0 {
-				properRow, properCol := (num-1)/4, (num-1)%4
+				properRow, properCol := (num-1)/rowSize, (num-1)%rowSize
 
 				rowDiff := Abs(properRow - i)
 				colDiff := Abs(properCol - j)
