@@ -37,7 +37,7 @@ def validateAgainst(classifier, validationFilePath, hasLabels=False):
     
     return predicted
 
-def outputResults(directory, predictedResults, bitmapArray, type):
+def outputResults(directory, predictedResults, type):
     with open(directory + "/info.csv", 'r') as file:
         info = [line.split(',') for line in file.read().split('\n')[1:]]
     outputTest = list(map(lambda predicted: info[predicted][1], predictedResults))
@@ -62,12 +62,9 @@ print("Using test set")
 testPrediction = validateAgainst(classifier, directory + "/test.csv")
 print(testPrediction)
 
-(testFeatures, testLabels) = getData(directory + "/test.csv", False)
-(validationFeatures, validationLabels) = getData(directory + "/val.csv")
-
 # Output mapped predictions for test and validation set
-outputResults(directory, testPrediction, testFeatures, "test")
-outputResults(directory, validationPrediction, validationFeatures, "val")
+outputResults(directory, testPrediction, "test")
+outputResults(directory, validationPrediction, "val")
 
 if (sys.argv[1] == "manual"):
     # Save the classifier
