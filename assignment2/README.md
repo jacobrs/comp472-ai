@@ -18,7 +18,7 @@ Followed by:
 Where `manual` creates a classfier and output it, and `automatic` takes a classifier as an input.
 It assumes the following directory structure:
 
-|--.
+|--<Root of project>
 |-- ds1
 |  |-- info.csv
 |  |-- model.pkl

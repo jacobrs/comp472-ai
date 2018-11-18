@@ -1,5 +1,5 @@
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, confusion_matrix
-from sklearn import tree
+from sklearn.svm import SVC
 from os import sys
 import pickle
 
@@ -18,10 +18,10 @@ def getData(filePath, hasLabels=True):
 
     return (features, labels)
 
-def treeClassifyWithData(filePath):
+def svcClassifyWithData(filePath):
     (features, labels) = getData(filePath, True)
 
-    classifier = tree.DecisionTreeClassifier(criterion="entropy", splitter='random')
+    classifier = SVC()
     classifier.fit(features, labels)
 
     return classifier
@@ -60,14 +60,14 @@ def outputResults(directory, predictedResults, typeName):
     with open(directory + "/info.csv", 'r') as file:
         info = [line.split(',') for line in file.read().split('\n')[1:]]
     outputName = directory.split('/')[-1]
-    with open(outputName + typeName + "-dt.csv", 'w') as file:
+    with open(outputName + typeName + "-svc.csv", 'w') as file:
         for x in range(len(predictedResults)):
             file.write(str(x + 1) + ", " + str(predictedResults[x]) + "\n")
 
 directory=sys.argv[2]
 
 if (sys.argv[1] == "manual"):
-    classifier = treeClassifyWithData(directory + "/train.csv")
+    classifier = svcClassifyWithData(directory + "/train.csv")
 else:
     # Load the classifier
     with open(directory + "/model.pkl", "rb") as file:
