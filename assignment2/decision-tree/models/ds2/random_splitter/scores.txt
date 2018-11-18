@@ -1,4 +1,4 @@
-Accuracy: 0.768000
-Precision: 0.767668
-Recall: 0.768000
-fscore: 0.766675
+Accuracy: 0.756000
+Precision: 0.755075
+Recall: 0.756000
+fscore: 0.753531

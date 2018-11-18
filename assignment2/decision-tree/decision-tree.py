@@ -21,7 +21,7 @@ def getData(filePath, hasLabels=True):
 def treeClassifyWithData(filePath):
     (features, labels) = getData(filePath, True)
 
-    classifier = tree.DecisionTreeClassifier(criterion="entropy", splitter='random')
+    classifier = tree.DecisionTreeClassifier(criterion="entropy", min_samples_split=8)
     classifier.fit(features, labels)
 
     return classifier
