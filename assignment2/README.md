@@ -1,7 +1,7 @@
 # AI Assignment 2
 ### COMP 472 fall semester 2018
 
-### Step-by-step docke instructions
+### Step-by-step docker instructions
 
 Install docker and run in the assignment2 directory:
 
