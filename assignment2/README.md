@@ -55,3 +55,27 @@ Example:
 `python svc.py automatic ../ds1`
 
 Run the above from the `svc` directory, it will use the `model.pkl` in the `../ds1` directory.
+
+### Running MLPC
+
+`python3 mlpc.py (manual | automatic) (inputDirectory) (outputDirectory)`
+
+Where `manual` creates a classfier and output it, and `automatic` takes a classifier as an input.
+
+Example:
+
+`python3 mlpc.py automatic ../ds1 ./models/ds1`
+
+Run the above from the `mlpc` directory, it will use the `model.pkl` in the `./models/ds1` directory.
+
+### Running Naive Bayes Bernoulli
+
+`python3 svc.py (manual | automatic) (inputDirectory) (outputDirectory)`
+
+Where `manual` creates a classfier and output it, and `automatic` takes a classifier as an input.
+
+Example:
+
+`python3 naive-bayes.py automatic ../ds1 ./models/ds1`
+
+Run the above from the `naive-bayes-bernoulli` directory, it will use the `model.pkl` in the `./models/ds1` directory.
