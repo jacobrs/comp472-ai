@@ -1,0 +1,4 @@
+Accuracy: 0.319066
+Precision: 0.366172
+Recall: 0.319066
+fscore: 0.328198
