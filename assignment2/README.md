@@ -70,7 +70,7 @@ Run the above from the `mlpc` directory, it will use the `model.pkl` in the `./m
 
 ### Running Naive Bayes Bernoulli
 
-`python3 svc.py (manual | automatic) (inputDirectory) (outputDirectory)`
+`python3 naive-bayes.py (manual | automatic) (inputDirectory) (outputDirectory)`
 
 Where `manual` creates a classfier and output it, and `automatic` takes a classifier as an input.
 
