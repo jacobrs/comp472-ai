@@ -58,7 +58,7 @@ def validateAgainst(classifier, validationFilePath, outputDirectory, hasLabels=F
 
 def outputResults(directory, predictedResults, typeName):
     outputName = directory.split('/')[-1]
-    with open(directory + "/" + outputName + typeName + "-mlpc.csv", 'w') as file:
+    with open(directory + "/" + outputName + typeName + "-4.csv", 'w') as file:
         for x in range(len(predictedResults)):
             file.write(str(x + 1) + ", " + str(predictedResults[x]) + "\n")
 

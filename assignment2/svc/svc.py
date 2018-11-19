@@ -60,7 +60,7 @@ def outputResults(directory, predictedResults, typeName):
     with open(directory + "/info.csv", 'r') as file:
         info = [line.split(',') for line in file.read().split('\n')[1:]]
     outputName = directory.split('/')[-1]
-    with open(outputName + typeName + "-svc.csv", 'w') as file:
+    with open(outputName + typeName + "-3.csv", 'w') as file:
         for x in range(len(predictedResults)):
             file.write(str(x + 1) + ", " + str(predictedResults[x]) + "\n")
 
