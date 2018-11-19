@@ -8,3 +8,4 @@ puzzleAs-h2.txt
 .DS_Store
 model.pkl
 .vscode
+*.pkl
