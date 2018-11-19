@@ -1,5 +1,5 @@
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, confusion_matrix
-from sklearn.naive_bayes import BernoulliNB
+from sklearn.neural_network import MLPClassifier
 from os import sys
 import pickle
 
@@ -21,7 +21,7 @@ def getData(filePath, hasLabels=True):
 def naiveBayesBernoulli(filePath):
     (features, labels) = getData(filePath, True)
 
-    classifier = BernoulliNB(alpha=0.5)
+    classifier = MLPClassifier()
     classifier.fit(features, labels)
 
     return classifier
@@ -58,7 +58,7 @@ def validateAgainst(classifier, validationFilePath, outputDirectory, hasLabels=F
 
 def outputResults(directory, predictedResults, typeName):
     outputName = directory.split('/')[-1]
-    with open(directory + "/" + outputName + typeName + "-nb.csv", 'w') as file:
+    with open(directory + "/" + outputName + typeName + "-mlpc.csv", 'w') as file:
         for x in range(len(predictedResults)):
             file.write(str(x + 1) + ", " + str(predictedResults[x]) + "\n")
 
