@@ -20,6 +20,7 @@ def appendToBigramMatrix(matrix, openedBook):
     firstChar = True
     for line in openedBook:
         for char in line.strip():
+            char = chr(char)
             if characterSetRegex.match(char):
                 if firstChar:
                     char = char.lower()
@@ -90,7 +91,7 @@ for lang in languages:
 
     for file in os.listdir('../books/' + lang):
         if file.endswith('.txt'):
-            with open('../books/' + lang + '/' + file) as book:
+            with open('../books/' + lang + '/' + file, "rb") as book:
                 appendToBigramMatrix(countMatrices[lang], book)
 
 # Calculate the percentage and log matrices
