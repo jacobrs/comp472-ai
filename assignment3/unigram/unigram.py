@@ -12,6 +12,8 @@ countDict = {}
 chanceDict = {}
 characterSetRegex = re.compile('[a-zA-Z]')
 
+delta = 1000
+
 def appendToUnigramCount(arr, openedBook):
   for line in openedBook:
     for char in line.strip():
@@ -40,6 +42,7 @@ def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages
       logTotals[lang] = 0
     # Output cumulative log chances
     for char in sentence:
+      char = char.lower()
       if characterSetRegex.match(char):
         output.write('UNIGRAM: %s\n' % char)
         for lang in languages:
@@ -56,6 +59,7 @@ def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages
         maxLang = lang
     
     output.write('According to unigram model, most likely language is %s\n' % languageMap[maxLang])
+    print("%d: %s" % (sentenceNumber + 1, languageMap[maxLang]))
     output.write('\n')
 
 def outputPercentagesModel(fileLocation):
@@ -64,6 +68,8 @@ def outputPercentagesModel(fileLocation):
 # Count bigram letter counts
 for lang in languages:
   countDict[lang] = {}
+  for i in range(ord('a'), ord('z')+1):
+    countDict[lang][chr(i)] = delta
 
   for file in os.listdir('../books/' + lang):
     if file.endswith('.txt'):
@@ -76,7 +82,7 @@ for lang in languages:
   calculateChanceUnigramDict(chanceDict[lang], countDict[lang])
 
 # Check most likely language given sentences and output results
-with open('../train/sentences.txt') as sentences:
+with open('../train/sentences_unigram.txt') as sentences:
   index = 0
   for line in sentences:
     outputMostLikelyLanguage(index, line.strip(), chanceDict, languages)
