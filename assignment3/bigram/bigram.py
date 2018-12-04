@@ -39,7 +39,7 @@ def calculateChanceBigramMatrix(matrix, countMatrix):
             percentage = countMatrix[rowIndex][charIndex] / totalCount
             matrix[rowIndex][charIndex] = (percentage, math.log(percentage, 10))
 
-def calculateMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages):
+def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages):
     print(sentence)
 
     print('-------------')
@@ -81,6 +81,9 @@ def calculateMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, langua
     print('According to bigram model, most likely language is %s' % languageMap[maxLang])
     print('')
 
+def outputPercentagesModel():
+    pass
+
 for lang in languages:
     countMatrices[lang] = createBigramMatrix()
 
@@ -96,5 +99,5 @@ for lang in languages:
 with open('../train/sentences.txt') as sentences:
     index = 0
     for line in sentences:
-        calculateMostLikelyLanguage(index, line.strip(), chanceMatrices, languages)
+        outputMostLikelyLanguage(index, line.strip(), chanceMatrices, languages)
         index += 1
