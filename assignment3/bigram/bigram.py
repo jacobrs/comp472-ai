@@ -82,9 +82,15 @@ def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages
         output.write('According to bigram model, most likely language is %s\n' % languageMap[maxLang])
         output.write('\n')
 
+        # uncomment for pretty output of guesses
+        # print("%d: %s" % (sentenceNumber + 1, languageMap[maxLang]))
+
 def outputPercentagesModel(chanceMatrices, languages):
     for lang in languages:
-        with open("../output/bigram" + lang.upper() + ".txt", "w") as output:
+        langUpper = lang.upper()
+        if langUpper == 'ES':
+            langUpper = 'OT'
+        with open("../output/bigram" + langUpper + ".txt", "w") as output:
             for rowIndex in range(len(chanceMatrices[lang])):
                 for colIndex in range(len(chanceMatrices[lang][rowIndex])):
                     output.write("P(%s|%s) = %f\n" % (chr(ord('a') + colIndex), chr(ord('a') + rowIndex), chanceMatrices[lang][rowIndex][colIndex][0]))
