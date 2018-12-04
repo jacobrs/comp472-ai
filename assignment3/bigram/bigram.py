@@ -13,7 +13,7 @@ chanceMatrices = {}
 characterSetRegex = re.compile('[a-zA-Z]')
 
 def createBigramMatrix():
-    matrix = [[0.5 for i in range(27)] for j in range(27)]
+    matrix = [[0.5 for i in range(26)] for j in range(26)]
     return matrix
 
 def appendToBigramMatrix(matrix, openedBook):
@@ -41,7 +41,7 @@ def calculateChanceBigramMatrix(matrix, countMatrix):
             matrix[rowIndex][charIndex] = (percentage, math.log(percentage, 10))
 
 def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages):
-    with open("../output/out" + str(sentenceNumber) + ".txt", "a") as output:
+    with open("../output/out" + str(sentenceNumber + 1) + ".txt", "a") as output:
         output.write('-------------\n')
         output.write('BIGRAM MODEL:\n')
         output.write('\n')
@@ -82,8 +82,12 @@ def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages
         output.write('According to bigram model, most likely language is %s\n' % languageMap[maxLang])
         output.write('\n')
 
-def outputPercentagesModel(fileLocation):
-    pass
+def outputPercentagesModel(chanceMatrices, languages):
+    for lang in languages:
+        with open("../output/bigram" + lang.upper() + ".txt", "w") as output:
+            for rowIndex in range(len(chanceMatrices[lang])):
+                for colIndex in range(len(chanceMatrices[lang][rowIndex])):
+                    output.write("P(%s|%s) = %f\n" % (chr(ord('a') + colIndex), chr(ord('a') + rowIndex), chanceMatrices[lang][rowIndex][colIndex][0]))
 
 # Count bigram letter counts
 for lang in languages:
@@ -107,3 +111,4 @@ with open('../train/sentences.txt') as sentences:
         index += 1
 
 # Output percentage matrix as a text model
+outputPercentagesModel(chanceMatrices, languages)
