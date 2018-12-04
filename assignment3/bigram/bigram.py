@@ -40,50 +40,51 @@ def calculateChanceBigramMatrix(matrix, countMatrix):
             matrix[rowIndex][charIndex] = (percentage, math.log(percentage, 10))
 
 def outputMostLikelyLanguage(sentenceNumber, sentence, chanceMatrices, languages):
-    print(sentence)
+    with open("../output/out" + str(sentenceNumber) + ".txt", "a") as output:
+        output.write('-------------\n')
+        output.write('BIGRAM MODEL:\n')
+        output.write('\n')
 
-    print('-------------')
-    print('BIGRAM MODEL:')
-    print('')
+        logTotals = {}
+        for lang in languages:
+            logTotals[lang] = 0
+        firstChar = True
+        # Output cumulative log chances
+        for char in sentence:
+            if characterSetRegex.match(char):
+                if firstChar:
+                    char = char.lower()
+                    prevChar = char
+                    prevCharVal = ord(prevChar) - ord('a')
+                    firstChar = False
+                else:
+                    char = char.lower()
+                    currCharVal = ord(char) - ord('a')
 
-    logTotals = {}
-    for lang in languages:
-        logTotals[lang] = 0
-    firstChar = True
-    for char in sentence:
-        if characterSetRegex.match(char):
-            if firstChar:
-                char = char.lower()
-                prevChar = char
-                prevCharVal = ord(prevChar) - ord('a')
-                firstChar = False
-            else:
-                char = char.lower()
-                currCharVal = ord(char) - ord('a')
+                    output.write('BIGRAM: %s\n' % (prevChar + char))
+                    for lang in languages:
+                        percentage, log = chanceMatrices[lang][prevCharVal][currCharVal]
+                        logTotals[lang] += log
+                        output.write('%s: P(%s|%s) = %f ==> log prob of sentence right now: %f\n' % (lang, char, prevChar, percentage, logTotals[lang]))
+                    output.write('\n')
 
-                print('BIGRAM: %s' % (prevChar + char))
-                for lang in languages:
-                    percentage, log = chanceMatrices[lang][prevCharVal][currCharVal]
-                    logTotals[lang] += log
-                    print('%s: P(%s|%s) = %f ==> log prob of sentence right now: %f' % (lang, char, prevChar, percentage, logTotals[lang]))
-                print('')
-
-                prevChar = char
-                prevCharVal = currCharVal
+                    prevChar = char
+                    prevCharVal = currCharVal
+            
+        maxVal = None
+        maxLang = ''
+        for lang in languages:
+            if maxVal == None or logTotals[lang] > maxVal:
+                maxVal = logTotals[lang]
+                maxLang = lang
         
-    maxVal = None
-    maxLang = ''
-    for lang in languages:
-        if maxVal == None or logTotals[lang] > maxVal:
-            maxVal = logTotals[lang]
-            maxLang = lang
-    
-    print('According to bigram model, most likely language is %s' % languageMap[maxLang])
-    print('')
+        output.write('According to bigram model, most likely language is %s\n' % languageMap[maxLang])
+        output.write('\n')
 
-def outputPercentagesModel():
+def outputPercentagesModel(fileLocation):
     pass
 
+# Count bigram letter counts
 for lang in languages:
     countMatrices[lang] = createBigramMatrix()
 
@@ -92,12 +93,16 @@ for lang in languages:
             with open('../books/' + lang + '/' + file) as book:
                 appendToBigramMatrix(countMatrices[lang], book)
 
+# Calculate the percentage and log matrices
 for lang in languages:
     chanceMatrices[lang] = createBigramMatrix()
     calculateChanceBigramMatrix(chanceMatrices[lang], countMatrices[lang])
 
+# Check most likely language given sentences and output results
 with open('../train/sentences.txt') as sentences:
     index = 0
     for line in sentences:
         outputMostLikelyLanguage(index, line.strip(), chanceMatrices, languages)
         index += 1
+
+# Output percentage matrix as a text model
