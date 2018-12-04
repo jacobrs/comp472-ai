@@ -93,5 +93,3 @@ with open('../train/sentences_unigram.txt') as sentences:
   for line in sentences:
     outputMostLikelyLanguage(index, line.strip(), chanceDict, languages)
     index += 1
-
-# Output percentage matrix as a text model
